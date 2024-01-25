@@ -5,7 +5,6 @@ function Resources() {
     return (
       <div>
         <div>
-          {/* Your Navbar component */}
         </div>
         <div>
           <html lang="en">
@@ -38,7 +37,6 @@ function Resources() {
                     </a>
                   </p>
                 </section>
-                {/* Repeat the above section for other organizations */}
               </main>
               <footer>
                 <p>&copy; 2024 Cheer Connections</p>
