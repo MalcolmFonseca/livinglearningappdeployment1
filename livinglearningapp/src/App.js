@@ -1,5 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import About from './About';
 
 function App() {
   // Handler for logout
@@ -10,6 +12,13 @@ function App() {
 
   return (
     <div className="App">
+      <div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
       <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
         <Container>
           <Navbar.Brand href="#home">
