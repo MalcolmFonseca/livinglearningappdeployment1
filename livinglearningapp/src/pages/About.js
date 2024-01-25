@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container,NavDropdown } from 'react-bootstrap';
 
 function About(){
     return(
@@ -34,3 +34,4 @@ function About(){
     </div>
     )
 }
+export default About

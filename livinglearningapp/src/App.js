@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import About from './About';
+import About from './pages/About';
 
 function App() {
   // Handler for logout
