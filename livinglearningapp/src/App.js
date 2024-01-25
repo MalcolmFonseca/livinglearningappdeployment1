@@ -1,49 +1,27 @@
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import About from './pages/About';
-import Resources from './pages/Resources';
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './components/Pages/LandingPage';
+import AdminPage from './components/Pages/AdminPage';
+import GuardianPage from './components/Pages/GuardianPage';
+import EmployeePage from './components/Pages/EmployeePage';
+import CustomerPage from './components/Pages/CustomerPage';
+
+
 
 function App() {
-  // Handler for logout
-  const handleLogout = () => {
-    console.log('Logout action');
-    // Implement your logout logic here
-  };
-
   return (
-    <div className="App">
-      <div>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/about" element={<About />} />
-            <Route path="/Resources" element={<Resources />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-      <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
-        <Container>
-          <Navbar.Brand href="#home">
-            {/* You can place a logo here using an img tag if you have one */}
-            MyApp
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link1">Lin</Nav.Link>
-              <Nav.Link href="Resources">Link 2</Nav.Link>
-              {/* ... other links ... */}
-            </Nav>
-            <Nav>
-              <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
 
-      {/* Your page content goes here */}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/admin-home" element={<AdminPage />} />
+        <Route path="/guardian-home" element={<GuardianPage />} />
+        <Route path="/employee-home" element={<EmployeePage />} />
+        <Route path="/customer-home" element={<CustomerPage />} />
+        {/* Add additional routes as needed */}
+      </Routes>
+    </Router>
   );
 }
 
