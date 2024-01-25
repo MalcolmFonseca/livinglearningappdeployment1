@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import About from './pages/About';
+import Resources from './pages/Resources';
 
 function App() {
   // Handler for logout
@@ -16,6 +17,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/about" element={<About />} />
+            <Route path="/Resources" element={<Resources />} />
           </Routes>
         </BrowserRouter>
       </div>
@@ -29,8 +31,8 @@ function App() {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link1">Link 1</Nav.Link>
-              <Nav.Link href="#link2">Link 2</Nav.Link>
+              <Nav.Link href="#link1">Lin</Nav.Link>
+              <Nav.Link href="Resources">Link 2</Nav.Link>
               {/* ... other links ... */}
             </Nav>
             <Nav>
