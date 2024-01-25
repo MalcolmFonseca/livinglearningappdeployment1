@@ -13,15 +13,7 @@ function App() {
 
   return (
     <div className="App">
-      <div>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/about" element={<About />} />
-            <Route path="/Resources" element={<Resources />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-      <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
+            <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
         <Container>
           <Navbar.Brand href="#home">
             {/* You can place a logo here using an img tag if you have one */}
@@ -41,6 +33,15 @@ function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/about" element={<About />} />
+            <Route path="/Resources" element={<Resources />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+
 
       {/* Your page content goes here */}
     </div>
