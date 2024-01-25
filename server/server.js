@@ -140,7 +140,7 @@ app.post('/register', async (req, res) => {
       });
     })(req, res, next);
   });
-  app.post('/logout', (req, res) => {
+  app.post('/logout', (req, res) => {//logout endpoint
     req.logout((err) => {
       if (err) {
         console.log('Error : Failed to logout.', err);
