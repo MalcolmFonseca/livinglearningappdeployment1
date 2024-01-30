@@ -19,12 +19,21 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch(err => console.log(err));
 
   const userSchema = new mongoose.Schema({
-    email: { type: String, required: true, unique: true },
+    username: { type: String, required: true, unique: true }, // Add username
     password: { type: String, required: true },
-    disabled: { type: Boolean, default: false },
-    role: { type: String, default: 'user' } // 'user' or 'admin'
-});
-
+    email: { type: String, required: true, unique: true },
+    phone: { type: String, required: true }, // Add phone number
+    birthDate: { type: Date, required: true }, // Add birth date
+    homeAddress: { // Add home address
+      street: { type: String, required: true },
+      city: { type: String, required: true },
+      state: { type: String, required: true },
+      country: { type: String, required: true },
+      postalCode: { type: String, required: true }
+    },
+    userType: { type: String, default: 'user' }, // 'user' or 'admin'
+    disabled: { type: Boolean, default: false }
+  });
   
 const User = mongoose.model('User', userSchema);
 

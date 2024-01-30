@@ -20,6 +20,9 @@ function LandingPage() {
       navigate('/customer-home');
     }
   };
+  const handleSignup = ()=>{
+    navigate('/signUp')
+  }
 
   return (
     <div>
@@ -29,6 +32,8 @@ function LandingPage() {
       <button onClick={() => handleLogin('admin')}>Admin Login</button>
       <button onClick={() => handleLogin('guardian')}>Guardian Login</button>
       <button onClick={() => handleLogin('employee')}>Employee Login</button>
+      <button onClick={() => handleSignup()}>Sign-Up</button>
+      
     </div>
   );
 }
