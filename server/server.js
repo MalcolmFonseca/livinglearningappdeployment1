@@ -2,6 +2,8 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
+
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const session = require('express-session');
@@ -13,10 +15,12 @@ const encodedPassword = encodeURIComponent(rawPassword);
 
 
 
-const mongoURI = `mongodb+srv://devenzivanovic:${encodedPassword}@cluster0.ecxmiby.mongodb.net/?retryWrites=true&w=majority`;
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+const mongoURI = `mongodb+srv://devenzivanovic:${encodedPassword}@cluster0.ecxmiby.mongodb.net/LivingLearning?retryWrites=true&w=majority`;
+
+mongoose.connect(mongoURI)
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
+
 
   const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true }, // Add username
@@ -24,13 +28,11 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     email: { type: String, required: true, unique: true },
     phone: { type: String, required: true }, // Add phone number
     birthDate: { type: Date, required: true }, // Add birth date
-    homeAddress: { // Add home address
-      street: { type: String, required: true },
-      city: { type: String, required: true },
-      state: { type: String, required: true },
-      country: { type: String, required: true },
-      postalCode: { type: String, required: true }
-    },
+    homeStreet: { type: String, required: true },
+    homeCity: { type: String, required: true },
+    homeState: { type: String, required: true },
+    homeCountry: { type: String, required: true },
+    homePostalCode: { type: String, required: true },
     userType: { type: String, default: 'user' }, // 'user' or 'admin'
     disabled: { type: Boolean, default: false }
   });
@@ -48,6 +50,7 @@ const User = mongoose.model('User', userSchema);
 
   
 const app = express();
+app.use(cors());
 
 // Session configuration
 app.use(session({
@@ -61,30 +64,30 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new LocalStrategy(
-    { usernameField: 'username' }, 
-    async (username, password, done) => {
+  { usernameField: 'email' }, // Change this to 'email'
+  async (email, password, done) => {
       try {
-        const user = await User.findOne({ email: username });
-        if (!user) {
-          return done(null, false, { message: 'Incorrect username.' });
-        }
+          const user = await User.findOne({ email }); // Now this will correctly use the email to find the user
+          if (!user) {
+              return done(null, false, { message: 'Incorrect email.' });
+          }
 
-        
-        if (user.disabled) {
-          return done(null, false, { message: 'Account disabled.' });
-        }
+          if (user.disabled) {
+              return done(null, false, { message: 'Account disabled.' });
+          }
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-          return done(null, false, { message: 'Incorrect password.' });
-        }
+          const isMatch = await bcrypt.compare(password, user.password);
+          if (!isMatch) {
+              return done(null, false, { message: 'Incorrect password.' });
+          }
 
-        return done(null, user);
+          return done(null, user);
       } catch (e) {
-        return done(e);
+          return done(e);
       }
-    }
+  }
 ));
+
 
   passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -120,24 +123,51 @@ function isAuthenticated(req, res, next) {
 
 //password endpoints
 app.post('/register', async (req, res) => {
-    try {
-      const { email, password } = req.body;
-  
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        return res.status(400).send('User already exists');
-      }
-  
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = new User({ email, password: hashedPassword });
-      await newUser.save();
-  
-      res.status(201).send('User registered successfully');
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error in registering user');
+  try {
+    // Extract additional fields from the request
+    const {
+      email, password, username, phone, birthDate,
+      homeStreet, homeCity, homeState, homeCountry, homePostalCode
+    } = req.body;
+
+    // Basic validation
+    if (!email || !password || !username || !phone || !birthDate || !homeStreet || !homeCity||!homeState||!homeCountry||!homePostalCode) {
+      return res.status(400).send('All fields are required');
     }
-  });
+
+    // Check if the user already exists
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).send('User already exists');
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user with all fields
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      phone,
+      birthDate,
+      homeStreet,
+      homeCity,
+      homeState,
+      homeCountry,
+      homePostalCode
+    });
+
+    // Save the new user
+    await newUser.save();
+
+    res.status(201).send('User registered successfully');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error in registering user');
+  }
+});
+
   app.post('/login', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
       if (err) return next(err);
@@ -171,4 +201,8 @@ app.get('/api/user/role', isAuthenticated, (req, res) => {
     }
     // Send back the user's role
     res.json({ role: req.user.role });
+});
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

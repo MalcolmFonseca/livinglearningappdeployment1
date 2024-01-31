@@ -1,13 +1,12 @@
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function LandingPage() {
   let navigate = useNavigate();
 
   const handleLogin = (userRole) => {
-    // Perform login logic, authenticate user, and set user role
-    // For example purposes, let's say the userRole can be 'admin' or 'user'
     if (userRole === 'admin') {
       navigate('/admin-home');
     } else if (userRole === 'guardian'){
@@ -20,20 +19,45 @@ function LandingPage() {
       navigate('/customer-home');
     }
   };
-  const handleSignup = ()=>{
-    navigate('/signUp')
+
+  const handleSignup = () => {
+    navigate('/signUp');
   }
 
   return (
-    <div>
-      <h1>Welcome to MyApp</h1>
-      {/* Replace with your login form */}
-      <button onClick={() => handleLogin('user')}>User Login</button>
-      <button onClick={() => handleLogin('admin')}>Admin Login</button>
-      <button onClick={() => handleLogin('guardian')}>Guardian Login</button>
-      <button onClick={() => handleLogin('employee')}>Employee Login</button>
-      <button onClick={() => handleSignup()}>Sign-Up</button>
-      
+    <div className="App">
+      <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
+        <Container>
+          <Navbar.Brand href="#home">MyApp</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              {/* Add any additional links you might want here */}
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+
+      <Container className="mt-5 text-center">
+        <h1>Welcome to MyApp</h1>
+        <Row className="mt-4">
+          <Col>
+            <Button variant="primary" onClick={() => handleLogin('user')}>User Login</Button>
+          </Col>
+          <Col>
+            <Button variant="secondary" onClick={() => handleLogin('admin')}>Admin Login</Button>
+          </Col>
+          <Col>
+            <Button variant="success" onClick={() => handleLogin('guardian')}>Guardian Login</Button>
+          </Col>
+          <Col>
+            <Button variant="warning" onClick={() => handleLogin('employee')}>Employee Login</Button>
+          </Col>
+          <Col>
+            <Button variant="info" onClick={() => handleSignup()}>Sign-Up</Button>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
