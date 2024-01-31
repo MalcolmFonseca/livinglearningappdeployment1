@@ -1,5 +1,7 @@
-import React from 'react'
+import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
+import {Link} from 'react-router-dom';
+import About from './About/AboutPage';
 
 
 function CustomerPage() {
@@ -11,6 +13,7 @@ function CustomerPage() {
       };
     
       return (
+        
         <div className="App">
           <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
             <Container>
@@ -21,7 +24,7 @@ function CustomerPage() {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                  <Nav.Link href="#about">ABOUT US</Nav.Link>
+                  <Nav.Link as = {Link} to = "/AboutUs">ABOUT US</Nav.Link>
                   <Nav.Link href="#games">GAMES</Nav.Link>
                   <Nav.Link href="#chat">CHAT</Nav.Link>
                   <Nav.Link href="#resources">RESOUCES</Nav.Link>
