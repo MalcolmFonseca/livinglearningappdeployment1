@@ -7,7 +7,7 @@ import GuardianPage from './components/Pages/GuardianPage';
 import EmployeePage from './components/Pages/EmployeePage';
 import CustomerPage from './components/Pages/CustomerPage';
 import AboutPage from './components/Pages/About/AboutPage';
-import SignUp from './components/Pages/UserSignUp';
+import SignUp from './components/Pages/UserSignup';
 
 
 function App() {
