@@ -1,18 +1,62 @@
-// File: /src/components/Pages/UserLogin.js
 import React, { useState } from 'react';
-import { Container, Form, Button, Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const UserLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [phone, setPhone] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+ 
+  const [homeStreet, setHomeStreet] = useState('');
+  const [homeCity, setHomeCity] = useState('');
+  const [homeState, setHomeState] = useState('');
+  const [homeCountry, setHomeCountry] = useState('');
+  const [homePostalCode, setHomePostalCode] = useState('');
 
-  const handleSubmit = (event) => {
+
+
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle login logic here
-  };
+  
+    const userData = {
+      username,
+      email,
+      phone,
+      birthDate,
+      password,
+      homeStreet,
+      homeCity,
+      homeState,
+      homeCountry,
+      homePostalCode
+    };
+  
+    try {
+      const response = await fetch('http://localhost:3001/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
 
-  return (
+        // Handle success (e.g., show success message, redirect to login page, etc.)
+      } else {
+        const errorData = await response.json();
+        // Handle errors (e.g., show error message)
+      }
+    } catch (error) {
+      // Handle network errors
+    }
+  };
+  
+   return (
     <div className="App">
       <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
         <Container>
@@ -27,8 +71,18 @@ const UserLogin = () => {
       </Navbar>
 
       <Container className="mt-5">
-        <h2>Login</h2>
+        <h2>Sign Up</h2>
         <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3" controlId="formBasicUsername">
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Form.Group>
+
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control
@@ -46,6 +100,76 @@ const UserLogin = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicPhone">
+            <Form.Label>Phone Number</Form.Label>
+            <Form.Control
+              type="tel"
+              placeholder="Enter phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicBirthDate">
+            <Form.Label>Birth Date</Form.Label>
+            <Form.Control
+              type="date"
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
+            />
+          </Form.Group>
+
+          {/* Home Address Fields */}
+          <Form.Group className="mb-3" controlId="formBasicStreet">
+            <Form.Label>Address</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter street"
+              value={homeStreet}
+              onChange={(e) => setHomeStreet(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicCity">
+            <Form.Label>City</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter city"
+              value={homeCity}
+              onChange={(e) => setHomeCity(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicState">
+            <Form.Label>State</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter state"
+              value={homeState}
+              onChange={(e) => setHomeState(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicCountry">
+            <Form.Label>Country</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter country"
+              value={homeCountry}
+              onChange={(e) => setHomeCountry(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicPostalCode">
+            <Form.Label>Postal Code</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter postal code"
+              value={homePostalCode}
+              onChange={(e) => setHomePostalCode(e.target.value)}
             />
           </Form.Group>
 
