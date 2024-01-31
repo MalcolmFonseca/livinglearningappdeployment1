@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navbar, Nav, Container, Form, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container, Form, Button,Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const UserLogin = () => {
@@ -14,13 +14,14 @@ const UserLogin = () => {
   const [homeState, setHomeState] = useState('');
   const [homeCountry, setHomeCountry] = useState('');
   const [homePostalCode, setHomePostalCode] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
 
 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+    setErrorMessage('');
     const userData = {
       username,
       email,
@@ -45,14 +46,20 @@ const UserLogin = () => {
   
       if (response.ok) {
         const data = await response.json();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
 
         // Handle success (e.g., show success message, redirect to login page, etc.)
       } else {
         const errorData = await response.json();
+        setErrorMessage(errorData.message || 'Failed to register. Please try again.');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
         // Handle errors (e.g., show error message)
       }
     } catch (error) {
-      // Handle network errors
+      setErrorMessage(error.message || 'Network error. Please try again.'); 
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
     }
   };
   
@@ -72,6 +79,7 @@ const UserLogin = () => {
 
       <Container className="mt-5">
         <h2>Sign Up</h2>
+        {errorMessage && <Alert variant="danger">{errorMessage}</Alert>} 
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicUsername">
             <Form.Label>Username</Form.Label>
