@@ -21,7 +21,7 @@ function App() {
         <Route path="/employee-home" element={<EmployeePage />} />
         <Route path="/customer-home" element={<CustomerPage />} />
         <Route path="/about-us" element={<AboutPage />} />
-        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/signup" element={<SignUp />} />
         {/* Add additional routes as needed */}
       </Routes>
     </Router>
