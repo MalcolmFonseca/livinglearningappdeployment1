@@ -64,12 +64,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new LocalStrategy(
-  { usernameField: 'email' }, // Change this to 'email'
-  async (email, password, done) => {
+  { usernameField: 'username' }, // Change this to 'email'
+  async (username, password, done) => {
       try {
-          const user = await User.findOne({ email }); // Now this will correctly use the email to find the user
+          const user = await User.findOne({ username }); // Now this will correctly use the email to find the user
           if (!user) {
-              return done(null, false, { message: 'Incorrect email.' });
+              return done(null, false, { message: 'Incorrect username.' });
           }
 
           if (user.disabled) {
@@ -132,14 +132,17 @@ app.post('/register', async (req, res) => {
 
     // Basic validation
     if (!email || !password || !username || !phone || !birthDate || !homeStreet || !homeCity||!homeState||!homeCountry||!homePostalCode) {
-      return res.status(400).send('All fields are required');
+      return res.status(400).json({message:'All fields are required'});
     }
 
     // Check if the user already exists
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(400).send('User already exists');
+      return res.status(400).json({message:'User already exists'});
     }
+    const existingEmail = await User.findOne({email})
+    if (existingEmail)
+    {return res.status(400).json({message :'Email already in use'})}
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -161,10 +164,10 @@ app.post('/register', async (req, res) => {
     // Save the new user
     await newUser.save();
 
-    res.status(201).send('User registered successfully');
+    res.status(201).json({message :'User registered successfully'});
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error in registering user');
+    res.status(500).json({message:'Error in registering user'});
   }
 });
 
