@@ -27,7 +27,7 @@ function CustomerPage() {
                   <Nav.Link as = {Link} to = "/about-us">ABOUT US</Nav.Link>
                   <Nav.Link href="#games">GAMES</Nav.Link>
                   <Nav.Link href="#chat">CHAT</Nav.Link>
-                  <Nav.Link href="#resources">RESOUCES</Nav.Link>
+                  <Nav.Link as = {Link} to ="/resources">RESOUCES</Nav.Link>
                   <Nav.Link href="#events">EVENTS</Nav.Link>
                   {/* ... other links ... */}
                 </Nav>
