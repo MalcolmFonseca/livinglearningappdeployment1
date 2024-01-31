@@ -6,6 +6,7 @@ import AdminPage from './components/Pages/AdminPage';
 import GuardianPage from './components/Pages/GuardianPage';
 import EmployeePage from './components/Pages/EmployeePage';
 import CustomerPage from './components/Pages/CustomerPage';
+import About from './page/About';
 
 
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/guardian-home" element={<GuardianPage />} />
         <Route path="/employee-home" element={<EmployeePage />} />
         <Route path="/customer-home" element={<CustomerPage />} />
+        <Route path="/AboutUs" element={<About/>} />
         {/* Add additional routes as needed */}
       </Routes>
     </Router>
