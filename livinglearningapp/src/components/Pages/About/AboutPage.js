@@ -1,16 +1,18 @@
 import React from "react";
 import { Navbar, Nav, Container,NavDropdown } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import logo from './logo.png';
 import './About.css'
 
 function About(){
+  let navigate = useNavigate()
     return(
     <div className="Parent">
         <div className="Navbar">
           <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
             <Container>
-              <Navbar.Brand href="#home">
-                {/* You can place a logo here using an img tag if you have one */}
+              <Navbar.Brand href="/customer-home" >
+                
                 Living and Learning
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -18,7 +20,7 @@ function About(){
                 <Nav className="me-auto">
                   <Nav.Link href="#games">GAMES</Nav.Link>
                   <Nav.Link href="#chat">CHAT</Nav.Link>
-                  <Nav.Link href="#resources">RESOUCES</Nav.Link>
+                  <Nav.Link href="#resources">RESOURCES</Nav.Link>
                   <Nav.Link href="#events">EVENTS</Nav.Link>
                   {/* ... other links ... */}
                 </Nav>
