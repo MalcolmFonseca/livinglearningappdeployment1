@@ -8,13 +8,14 @@ function Resources() {
         <div className="Navbar">
           <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
             <Container>
-              <Navbar.Brand href="#home">
+              <Navbar.Brand href="/customer-home" >
                 {/* You can place a logo here using an img tag if you have one */}
                 Living and Learning
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
+                  <Nav.Link href="/about-us">ABOUT US</Nav.Link>
                   <Nav.Link href="#games">GAMES</Nav.Link>
                   <Nav.Link href="#chat">CHAT</Nav.Link>
                   <Nav.Link href="#resources">RESOUCES</Nav.Link>
