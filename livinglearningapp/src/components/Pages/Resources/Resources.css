@@ -2,49 +2,66 @@ body {
     font-family: 'Arial', sans-serif;
     font-size: 18px;
     line-height: 1.6;
-    margin: 0;
-    padding: 0;
     background-color: #f9f7f5; 
     color: #3c3c3c; 
-}
-
-header {
+  }
+  
+  /* Since you are using React Bootstrap, you might not need to style the header directly if you are using the Navbar component. */
+  /* header {
     background-color: #4e92a3; 
     color: #ffffff; 
     text-align: center;
     padding: 20px;
-}
-
-main {
+  } */
+  
+  /* Bootstrap's container class already provides a centered width, so you might not need this */
+  /* main {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-}
-
-.organization {
+  } */
+  
+  /* Use Bootstrap's card class instead of .organization */
+  .card {
     background-color: #ffffff; 
     border-radius: 10px;
     margin-bottom: 20px;
-    padding: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-p{
+  }
+  
+  .card-text, .list-group-item {
     color: #000000; 
-}
-a {
+  }
+  
+  /* You can use the Bootstrap's text-decoration utilities instead */
+  a {
     color: #2e6f80; 
-    text-decoration: none;
-}
-
-a:hover {
+  }
+  
+  /* Bootstrap's hover styles should already handle this, but you can keep it if you want a specific style */
+  a:hover {
     text-decoration: underline;
-}
-
-footer {
+  }
+  
+  /* Footer might not need to be styled if you're using a Bootstrap component, but here it is if you need it */
+  footer {
     text-align: center;
     padding: 10px;
     background-color: #4e92a3; 
-    color: #ffffff; 
+    color: #ffffff;
+  }
+  
+  /* Additional Bootstrap overrides as needed */
+  .navbar {
+    background-color: #4e92a3; /* This sets the Navbar color */
+  }
+  
+  /* Ensure footer sticks to the bottom */
+  /* If using Bootstrap's Footer component, you may not need this */
+  .footer {
+    position: fixed;
+    left: 0;
     bottom: 0;
     width: 100%;
-}
+  }
+  

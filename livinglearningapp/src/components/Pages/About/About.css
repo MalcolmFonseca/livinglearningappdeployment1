@@ -1,30 +1,26 @@
-.about {
-  margin-top: 15%;
-    box-sizing:initial;
-    background-color: black;
-    display:inline-flex;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  img{
-    height: 45%;
-    width: 45%;
-    margin-left: 50%;
-    border-radius: 50%;
- }
+/* CustomStyles.css */
+.navbar-custom {
+  background-color: #355070; /* Your preferred color */
+}
 
-  
-  h {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 500%;
-    color: azure;
-    margin-bottom: 10px; /* Add some margin below the heading */
-  }
-  
-  p {
-    font-family: Arial, Helvetica, sans-serif;
-    color: azure;
-    margin-top: 5%; /* Reset default margin */
-    margin-right: 35%;
-  }
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+  color: #fff; /* For light text */
+}
+
+.navbar-custom .nav-link:hover,
+.navbar-custom .nav-link:focus {
+  background-color: #6d597a; /* Slightly darker color on hover/focus */
+}
+
+.navbar-brand-custom {
+  font-weight: bold;
+  font-size: 1.5rem; /* Larger brand size */
+}
+
+/* Adjust margins and padding as needed */
+.content-section {
+  padding: 40px 0;
+}
+
+/* Add more custom styles as needed */
