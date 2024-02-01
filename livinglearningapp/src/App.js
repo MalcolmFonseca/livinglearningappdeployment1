@@ -8,6 +8,7 @@ import EmployeePage from './components/Pages/EmployeePage';
 import CustomerPage from './components/Pages/CustomerPage';
 import AboutPage from './components/Pages/About/AboutPage';
 import UserSignUp from './components/Pages/UserSignup';
+import Resources from './components/Pages/Resources/ResourcesPage'
 
 
 function App() {
@@ -22,7 +23,8 @@ function App() {
         <Route path="/customer-home" element={<CustomerPage />} />
         <Route path="/about-us" element={<AboutPage />} />
 
-        <Route path="/signUp" element={<UserSignUp />} />
+        <Route path="/signup" element={<UserSignUp />} />
+        <Route path="/resources" element={<Resources />} />
 
         {/* Add additional routes as needed */}
       </Routes>
