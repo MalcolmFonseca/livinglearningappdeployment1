@@ -1,19 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import About from "./About/AboutPage";
 
-function CustomerPage() {
-  const handleLogout = () => {
-    console.log("Logout action");
-    // Implement your logout logic here
+function Chatroom() {
+  const [messages, setMessages] = useState([]);
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
   };
 
   return (
-    <div className="App">
+    <>
       <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
         <Container>
-          <Navbar.Brand href="#home">Living and Learning</Navbar.Brand>
+          <Navbar.Brand href="/customer-home">Living and Learning</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
@@ -32,16 +32,16 @@ function CustomerPage() {
               <Nav.Link href="#events">EVENTS</Nav.Link>
               {/* ... other links ... */}
             </Nav>
-            <Nav>
-              <Nav.Link onClick={handleLogout}>LOGOUT</Nav.Link>
-            </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
 
-      {/* Your page content goes here */}
-    </div>
+      <form onSubmit={sendMessage}>
+        <input></input>
+        <button type="submit">Send</button>
+      </form>
+    </>
   );
 }
 
-export default CustomerPage;
+export default Chatroom;

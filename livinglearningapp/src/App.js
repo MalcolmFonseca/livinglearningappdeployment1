@@ -1,19 +1,18 @@
-import React from 'react';
+import React from "react";
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LandingPage from './components/Pages/LandingPage';
-import AdminPage from './components/Pages/AdminPage';
-import GuardianPage from './components/Pages/GuardianPage';
-import EmployeePage from './components/Pages/EmployeePage';
-import CustomerPage from './components/Pages/CustomerPage';
-import AboutPage from './components/Pages/About/AboutPage';
-import UserSignUp from './components/Pages/UserSignup';
-import Resources from './components/Pages/Resources/ResourcesPage'
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LandingPage from "./components/Pages/LandingPage";
+import AdminPage from "./components/Pages/AdminPage";
+import GuardianPage from "./components/Pages/GuardianPage";
+import EmployeePage from "./components/Pages/EmployeePage";
+import CustomerPage from "./components/Pages/CustomerPage";
+import AboutPage from "./components/Pages/About/AboutPage";
+import UserSignUp from "./components/Pages/UserSignup";
+import Resources from "./components/Pages/Resources/ResourcesPage";
+import Chatroom from "./components/Pages/Chatroom/Chatroom";
 
 function App() {
   return (
-
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
@@ -25,6 +24,7 @@ function App() {
 
         <Route path="/signup" element={<UserSignUp />} />
         <Route path="/resources" element={<Resources />} />
+        <Route path="/chatroom" element={<Chatroom />} />
 
         {/* Add additional routes as needed */}
       </Routes>
