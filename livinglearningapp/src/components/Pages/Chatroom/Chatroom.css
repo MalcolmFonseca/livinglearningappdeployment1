@@ -1,0 +1,93 @@
+.msgList {
+  display: flex;
+  flex-flow: column;
+}
+
+.message {
+  list-style: none;
+}
+
+.userMessage {
+  list-style: none;
+  padding-right: 15px;
+  margin-left: auto;
+}
+
+.messageContent {
+  width: fit-content;
+  background: #39c6e9;
+  padding: 15px;
+  color: #fff;
+  position: relative;
+  border-radius: 15px;
+}
+
+.userMessageContent {
+  width: fit-content;
+  background: #39c6e9;
+  padding: 15px;
+  color: #fff;
+  position: relative;
+  border-radius: 15px;
+}
+
+/*Used to give text bubbles the triangle*/
+.messageContent:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 15px solid transparent;
+  border-right: 15px solid #39c6e9;
+  border-top: 15px solid #39c6e9;
+  border-bottom: 15px solid transparent;
+  left: -15px;
+}
+
+.userMessageContent:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-right: 15px solid transparent;
+  border-left: 15px solid #39c6e9;
+  border-top: 15px solid #39c6e9;
+  border-bottom: 15px solid transparent;
+  right: -15px;
+}
+
+.messageInfo {
+  color: #808080;
+}
+
+.inputwrapper {
+  width: 100%;
+  bottom: 0;
+  position: fixed;
+  z-index: 100;
+}
+
+.messageInput {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid white;
+  border-radius: 50px;
+  background: rgba(190, 190, 190, 0.3);
+}
+
+.sendBtn {
+  background: #04aa6d;
+  border: none;
+  color: white;
+  padding: 15px 15px;
+  border-radius: 50%;
+  height: 100%;
+  aspect-ratio: 1;
+  position: absolute;
+  right: 0;
+}
+
+.bi {
+  width: 90%;
+  height: 90%;
+}
