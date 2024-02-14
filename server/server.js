@@ -33,7 +33,7 @@ mongoose.connect(mongoURI)
     homeState: { type: String, required: true },
     homeCountry: { type: String, required: true },
     homePostalCode: { type: String, required: true },
-    userType: { type: String, default: 'user' }, // 'user' or 'admin'
+    userType: { type: String, default: 'user' }, // 'user' or 'admin' or 'employee' or 'guardian'
     disabled: { type: Boolean, default: false }
   });
   
@@ -127,11 +127,22 @@ app.post('/register', async (req, res) => {
     // Extract additional fields from the request
     const {
       email, password, username, phone, birthDate,
-      homeStreet, homeCity, homeState, homeCountry, homePostalCode
+      homeStreet, homeCity, homeState, homeCountry, homePostalCode, guardian
     } = req.body;
+    var role;
+
+    if(guardian)
+    {
+      role = "guardian";
+    }
+    else
+    {
+      role = "user";
+    }
+
 
     // Basic validation
-    if (!email || !password || !username || !phone || !birthDate || !homeStreet || !homeCity||!homeState||!homeCountry||!homePostalCode) {
+    if (!email || !password || !username || !phone || !birthDate || !homeStreet || !homeCity||!homeState||!homeCountry||!homePostalCode || !role) {
       return res.status(400).json({message:'All fields are required'});
     }
 
@@ -158,7 +169,8 @@ app.post('/register', async (req, res) => {
       homeCity,
       homeState,
       homeCountry,
-      homePostalCode
+      homePostalCode,
+      role
     });
 
     // Save the new user
@@ -171,17 +183,22 @@ app.post('/register', async (req, res) => {
   }
 });
 
-  app.post('/login', (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
+app.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) return next(err);
+    if (!user) return res.status(400).send(info.message);
+
+    req.logIn(user, (err) => {
       if (err) return next(err);
-      if (!user) return res.status(400).send(info.message);
-  
-      req.logIn(user, (err) => {
-        if (err) return next(err);
-        return res.send('Logged in successfully');
+      // Include the userType in the success response
+      return res.json({
+        message: 'Logged in successfully',
+        userType: user.userType // Adjusted to match your schema
       });
-    })(req, res, next);
-  });
+    });
+  })(req, res, next);
+});
+
   app.post('/logout', (req, res) => {//logout endpoint
     req.logout((err) => {
       if (err) {
