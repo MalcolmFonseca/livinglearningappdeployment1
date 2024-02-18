@@ -50,13 +50,21 @@ const User = mongoose.model('User', userSchema);
 
   
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Replace with your frontend origin
+  credentials: true,
+}));
 
 // Session configuration
 app.use(session({
-  secret: 'theKey', 
+  secret: 'theKey',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false, // Set to true if using HTTPS
+    maxAge: 1000 * 60 * 60 * 24, // Example: 24 hours
+  }
 }));
 
 // Passport initialization
@@ -199,18 +207,34 @@ app.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
-  app.post('/logout', (req, res) => {//logout endpoint
+app.post('/logout', (req, res) => {
+  console.log('User attempting to log out with session ID:', req.session.id); // Log the session ID
+  if (req.isAuthenticated()) {
     req.logout((err) => {
       if (err) {
-        console.log('Error : Failed to logout.', err);
-        return res.status(500).send('Logout failed');
+        console.error('Logout error:', err);
+        return res.status(500).json({ message: 'Error during logout', error: err.toString() });
       }
-      req.session.destroy(() => {
-        res.clearCookie('connect.sid'); 
-        res.status(200).send('Logged out successfully');
+      console.log('Logout successful, attempting to destroy session.');
+      // Destroy the session manually
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Session destruction error:', err);
+          return res.status(500).json({ message: 'Session destruction failed', error: err.toString() });
+        }
+        res.clearCookie('connect.sid', { path: '/' }); // Ensure path matches the cookie's path
+        console.log('Session destroyed successfully');
+        return res.status(200).json({ message: 'Logged out successfully' });
       });
     });
-  });
+  } else {
+    console.log('No authenticated session to log out.');
+    res.status(200).json({ message: 'No session to log out' });
+  }
+});
+
+
+
   
  
   

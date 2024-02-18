@@ -3,7 +3,7 @@ import { Navbar, Nav, Container, Form, Button, Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const UserLogin = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -11,44 +11,49 @@ const UserLogin = () => {
     event.preventDefault();
     setErrorMessage('');
     const loginData = {
-      email,
+      username,
       password,
     };
-
+  
     try {
       const response = await fetch('http://localhost:3001/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // Include cookies with the request
         body: JSON.stringify(loginData),
       });
-
+  
       if (response.ok) {
         const { message, userType } = await response.json();
+        
+        
         localStorage.setItem('userType', userType); // Store the user's type for later use
+  
         // Redirect or perform actions based on userType
+        // For SPAs, use your routing library's navigation method instead of window.location.href for a smoother experience
         switch(userType) {
           case 'admin':
             // Redirect to admin dashboard
             window.location.href = '/admin-home';
             break;
           case 'guardian':
-            // Redirect to user dashboard
+            // Redirect to guardian dashboard
             window.location.href = '/guardian-home';
             break;
           case 'user':
-            // Redirect to user dashboard
+            // Redirect to customer dashboard
             window.location.href = '/customer-home';
             break;
           case 'employee':
             // Redirect to employee-specific page
             window.location.href = '/employee-home';
             break;
-          // Handle other user types as necessary
           default:
-            // Redirect or show an error
+            // Handle unknown user type or show an error message
             console.log(message); // Or handle other UI feedback
+            break;
         }
       } else {
         const errorData = await response.json();
@@ -60,6 +65,7 @@ const UserLogin = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
+  
 
   return (
     <div className="App">
@@ -80,12 +86,12 @@ const UserLogin = () => {
         {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
         <Form onSubmit={handleLogin}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Username</Form.Label>
             <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="username"
+              placeholder="Enter Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </Form.Group>
 
