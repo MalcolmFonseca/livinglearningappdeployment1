@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./Chatroom.css";
@@ -36,22 +36,33 @@ function Chatroom() {
     },
   ]);
 
-  //map messages to display
-  const msgList = messages.map((msg) => {
-    if (msg.owner == currentOwner) {
-      return (
-        <li className="userMessage">
-          <li className="messageInfo">{msg.owner}</li>
-          <li className="userMessageContent">{msg.contents}</li>
-        </li>
-      );
-    }
-    return (
-      <li className="message">
-        <li className="messageInfo">{msg.owner}</li>
-        <li className="messageContent">{msg.contents}</li>
-      </li>
-    );
+  const [msgList, setMsgList] = useState([]);
+
+  useEffect(() => {
+    Promise.all([fetch("/api/messages")])
+      .then(([res]) => Promise.all([res.json()]))
+      .then(([data]) => {
+        //ATTACH TO DATABASE
+        //map messages to display
+        const tempMsgList = messages.map((msg) => {
+          if (msg.owner == currentOwner) {
+            return (
+              <li className="userMessage">
+                <li className="messageInfo">{msg.owner}</li>
+                <li className="userMessageContent">{msg.contents}</li>
+              </li>
+            );
+          }
+          return (
+            <li className="message">
+              <li className="messageInfo">{msg.owner}</li>
+              <li className="messageContent">{msg.contents}</li>
+            </li>
+          );
+        });
+
+        setMsgList(tempMsgList);
+      });
   });
 
   const sendMessage = async (e) => {
@@ -59,14 +70,19 @@ function Chatroom() {
     e.preventDefault();
     //build the message object, id to be decided at database
     let tempDate = new Date();
-    const tempMessageObject = {
-      owner: "user1",
-      contents: userMessage,
-      //formats to canadian time
-      timestamp: tempDate.toLocaleString("en-CA"),
+
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: `{"owner":"${currentOwner}","contents":"${userMessage}","timestamp":"${tempDate.toLocaleString(
+        "en-CA"
+      )}"}`,
     };
 
-    console.log(tempMessageObject);
+    fetch("http://localhost:3001/chatroom/message", options)
+      .then((response) => response.json())
+      .then((response) => console.log(response))
+      .catch((err) => console.error(err));
   };
 
   return (
