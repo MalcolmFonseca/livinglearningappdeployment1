@@ -22,7 +22,7 @@ function AdminPage() {
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
                   <Nav.Link href="#manage">MANAGE EMPLOYEES</Nav.Link>
-                  <Nav.Link as = {Link} to = "/calendar">ADD EVENTS</Nav.Link>
+                  <Nav.Link as = {Link} to = "/calendar/*">ADD EVENTS</Nav.Link>
                   {/* ... other links ... */}
                 </Nav>
                 <Nav>

@@ -28,7 +28,7 @@ function App() {
         <Route path="/login" element={<UserLogin/>} />
         <Route path="/signup" element={<UserSignUp />} />
         <Route path="/resources" element={<Resources />} />
-        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/calendar/*" element={<Calendar />} />
         <Route path="/events-calendar" element={<EventsCalendar />} />
 
 

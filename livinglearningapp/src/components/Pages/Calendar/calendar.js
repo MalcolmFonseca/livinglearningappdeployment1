@@ -46,16 +46,13 @@ function EventsCalendar(){
     const {error} = await supabase.auth.signInWithOAuth({
       provider:'google',
       options:{
+        redirectTo: 'http://localhost:3000/calendar',
         scopes: 'https://www.googleapis.com/auth/calendar'
       }
     });
     if(error){
       alert("Error logging in to Google provider with Supabase")
       console.log(error);
-    }
-    else{
-      console.log("Lets view calendar")
-      navigate('/calendar')
     }
   }
   async function signOut(){
