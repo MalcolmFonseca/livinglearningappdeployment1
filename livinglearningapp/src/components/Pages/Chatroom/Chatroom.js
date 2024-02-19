@@ -5,46 +5,16 @@ import "./Chatroom.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Chatroom() {
-  const [userMessage, setUserMessage] = useState([]);
+  const [userMessage, setUserMessage] = useState();
   const [currentOwner, setCurrentOwner] = useState(["user1"]);
-  /*message object should have:
-        - id
-        - user who sent
-        - contents of message
-        - timestamp
-    */
-
-  //temp fields for testing purposes
-  const [messages, setMessages] = useState([
-    {
-      id: "0",
-      owner: "user1",
-      contents: "Hi!",
-      timestamp: "10:00pm 13/02/2024",
-    },
-    {
-      id: "1",
-      owner: "user2",
-      contents: "Hello!",
-      timestamp: "10:02pm 13/02/2024",
-    },
-    {
-      id: "2",
-      owner: "user1",
-      contents: "howre you?",
-      timestamp: "10:02pm 13/02/2024",
-    },
-  ]);
-
   const [msgList, setMsgList] = useState([]);
 
   useEffect(() => {
-    Promise.all([fetch("/api/messages")])
+    Promise.all([fetch("http://localhost:3001/api/chatroom/messages")])
       .then(([res]) => Promise.all([res.json()]))
       .then(([data]) => {
-        //ATTACH TO DATABASE
         //map messages to display
-        const tempMsgList = messages.map((msg) => {
+        const tempMsgList = data.map((msg) => {
           if (msg.owner == currentOwner) {
             return (
               <li className="userMessage">
@@ -79,10 +49,12 @@ function Chatroom() {
       )}"}`,
     };
 
-    fetch("http://localhost:3001/chatroom/message", options)
+    fetch("http://localhost:3001/api/chatroom/message", options)
       .then((response) => response.json())
       .then((response) => console.log(response))
       .catch((err) => console.error(err));
+
+    setUserMessage("");
   };
 
   return (
@@ -113,6 +85,7 @@ function Chatroom() {
       <ul className="msgList">{msgList}</ul>
       <form onSubmit={sendMessage} className="inputwrapper">
         <input
+          value={userMessage}
           className="messageInput"
           onChange={(e) => {
             setUserMessage(e.target.value);
