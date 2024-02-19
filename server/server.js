@@ -1,19 +1,15 @@
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const cors = require("cors");
 
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const cors = require('cors');
-
-const bcrypt = require('bcrypt');
-const passport = require('passport');
-const session = require('express-session');
-const LocalStrategy = require('passport-local').Strategy;
-const mongoose = require('mongoose');
-const rawPassword = "MyBoy/2002"; 
+const bcrypt = require("bcrypt");
+const passport = require("passport");
+const session = require("express-session");
+const LocalStrategy = require("passport-local").Strategy;
+const mongoose = require("mongoose");
+const rawPassword = "MyBoy/2002";
 const encodedPassword = encodeURIComponent(rawPassword);
-
-
-
 
 const mongoURI = `mongodb+srv://devenzivanovic:${encodedPassword}@cluster0.ecxmiby.mongodb.net/LivingLearning?retryWrites=true&w=majority`;
 
@@ -66,66 +62,61 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new LocalStrategy(
-  { usernameField: 'username' }, // Change this to 'email'
-  async (username, password, done) => {
+passport.use(
+  new LocalStrategy(
+    { usernameField: "username" }, // Change this to 'email'
+    async (username, password, done) => {
       try {
-          const user = await User.findOne({ username }); // Now this will correctly use the email to find the user
-          if (!user) {
-              return done(null, false, { message: 'Incorrect username.' });
-          }
+        const user = await User.findOne({ username }); // Now this will correctly use the email to find the user
+        if (!user) {
+          return done(null, false, { message: "Incorrect username." });
+        }
 
-          if (user.disabled) {
-              return done(null, false, { message: 'Account disabled.' });
-          }
+        if (user.disabled) {
+          return done(null, false, { message: "Account disabled." });
+        }
 
-          const isMatch = await bcrypt.compare(password, user.password);
-          if (!isMatch) {
-              return done(null, false, { message: 'Incorrect password.' });
-          }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          return done(null, false, { message: "Incorrect password." });
+        }
 
-          return done(null, user);
+        return done(null, user);
       } catch (e) {
-          return done(e);
+        return done(e);
       }
-  }
-));
-
-
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
-  
-  passport.deserializeUser(async (id, done) => {
-    try {
-      const user = await User.findById(id);
-      done(null, user);
-    } catch (error) {
-      done(error);
     }
-  });
-  
-  
-  
+  )
+);
 
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (error) {
+    done(error);
+  }
+});
 
 // Middleware to handle json data
 app.use(express.json());
 
 // Serve static files
-app.use(express.static(path.join(__dirname, '../client')));
-
+app.use(express.static(path.join(__dirname, "../client")));
 
 function isAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    res.status(401).send('User not authenticated');
+  if (req.isAuthenticated()) {
+    return next();
   }
-  
+  res.status(401).send("User not authenticated");
+}
 
 //password endpoints
-app.post('/register', async (req, res) => {
+app.post("/register", async (req, res) => {
   try {
     // Extract additional fields from the request
     const {
@@ -152,11 +143,12 @@ app.post('/register', async (req, res) => {
     // Check if the user already exists
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(400).json({message:'User already exists'});
+      return res.status(400).json({ message: "User already exists" });
     }
-    const existingEmail = await User.findOne({email})
-    if (existingEmail)
-    {return res.status(400).json({message :'Email already in use'})}
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -179,10 +171,10 @@ app.post('/register', async (req, res) => {
     // Save the new user
     await newUser.save();
 
-    res.status(201).json({message :'User registered successfully'});
+    res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({message:'Error in registering user'});
+    res.status(500).json({ message: "Error in registering user" });
   }
 });
 
@@ -275,15 +267,30 @@ app.get('/api/events/find', async (req, res) => {
 
   
  
-  
+
 // Endpoint to get the current user's role
-app.get('/api/user/role', isAuthenticated, (req, res) => {
-    if (!req.user) {
-        return res.status(404).send('User not found');
-    }
-    // Send back the user's role
-    res.json({ role: req.user.role });
+app.get("/api/user/role", isAuthenticated, (req, res) => {
+  if (!req.user) {
+    return res.status(404).send("User not found");
+  }
+  // Send back the user's role
+  res.json({ role: req.user.role });
 });
+
+//CHATROOM ENDPOINTS
+//Send Message
+app.post("/api/chatroom/message", async (req, res) => {
+  const messageObj = req.body;
+  //NEED TO ADD FUNCTION TO INSERT MESSAGE INTO TABLE
+  res.send();
+});
+
+//Retrieve all messages
+app.get("/api/chatroom/messages", (req, res) => {
+  //NEED TO ADD FUNCTION TO GRAB MESSAGES FROM DATABASE
+  res.send();
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
