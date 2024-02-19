@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navbar, Nav, Container } from 'react-bootstrap';
-
+import {Link} from 'react-router-dom';
 
 function AdminPage() {
 
@@ -21,9 +21,8 @@ function AdminPage() {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                  <Nav.Link href="#calendar">CALENDAR</Nav.Link>
                   <Nav.Link href="#manage">MANAGE EMPLOYEES</Nav.Link>
-                  <Nav.Link href="#add-events">ADD EVENTS</Nav.Link>
+                  <Nav.Link as = {Link} to = "/calendar">ADD EVENTS</Nav.Link>
                   {/* ... other links ... */}
                 </Nav>
                 <Nav>
