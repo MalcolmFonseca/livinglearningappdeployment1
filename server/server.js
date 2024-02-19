@@ -43,11 +43,6 @@ const User = mongoose.model('User', userSchema);
 
 
 
-
-
-
-
-
   
 const app = express();
 app.use(cors());
@@ -194,6 +189,52 @@ app.post('/register', async (req, res) => {
       });
     });
   });
+
+//EVENTS SCHEMA
+const eventSchema = new mongoose.Schema({
+  title: {
+      type: String,
+      required: true
+  },
+  date:{
+      type: Date,
+      required: true
+  },
+});
+
+const Event = mongoose.model('Event', eventSchema);
+  //EVENTS CALENDAR ROUTES
+  app.post('/api/events',async (req,res)=>{
+    console.log(req.body)
+    try {
+        const {title, date}= req.body;
+        const event= new Event({
+            title,
+            date
+        });
+        await event.save();
+        res.send({ status: 'ok '})
+    } catch (error) {
+        console.log(error)
+        res.json( { status: 'error', error: 'error creating event' } )
+    }
+});
+
+app.get('/api/events/find', async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+    // Parse start and end dates from query parameters
+    const parsedStartDate = new Date(startDate);
+    const parsedEndDate = new Date(endDate);
+    // Fetch events within the specified date range
+    const events = await Event.find({ date: { $gte: parsedStartDate, $lte: parsedEndDate } });
+
+    res.json(events);
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    res.status(500).json({ error: 'Failed to fetch events' });
+  }
+});
   
  
   

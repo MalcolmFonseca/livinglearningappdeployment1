@@ -31,7 +31,7 @@ function CustomerPage() {
                   <Nav.Link as = {Link} to ="/resources">RESOURCES</Nav.Link>
 
                  
-                  <Nav.Link href="#events">EVENTS</Nav.Link>
+                  <Nav.Link as = {Link} to = "/calendar">EVENTS</Nav.Link>
                   {/* ... other links ... */}
                 </Nav>
                 <Nav>
