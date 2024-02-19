@@ -12,16 +12,6 @@ import Resources from './components/Pages/Resources/ResourcesPage'
 import Calendar from './components/Pages/Calendar/calendar';
 import EventsCalendar from './components/Pages/Calendar/eventsCalendar';
 import UserLogin from './components/Pages/Login'
-
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LandingPage from "./components/Pages/LandingPage";
-import AdminPage from "./components/Pages/AdminPage";
-import GuardianPage from "./components/Pages/GuardianPage";
-import EmployeePage from "./components/Pages/EmployeePage";
-import CustomerPage from "./components/Pages/CustomerPage";
-import AboutPage from "./components/Pages/About/AboutPage";
-import UserSignUp from "./components/Pages/UserSignup";
-import Resources from "./components/Pages/Resources/ResourcesPage";
 import Chatroom from "./components/Pages/Chatroom/Chatroom";
 
 function App() {
