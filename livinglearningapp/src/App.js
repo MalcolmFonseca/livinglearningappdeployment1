@@ -8,7 +8,8 @@ import EmployeePage from './components/Pages/EmployeePage';
 import CustomerPage from './components/Pages/CustomerPage';
 import AboutPage from './components/Pages/About/AboutPage';
 import UserSignUp from './components/Pages/UserSignup';
-import Resources from './components/Pages/Resources/ResourcesPage'
+import Resources from './components/Pages/Resources/ResourcesPage';
+import Chatbot from './components/Pages/Chatbot/Chatbot';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/about-us" element={<AboutPage />} />
 
         <Route path="/signup" element={<UserSignUp />} />
+        <Route path="/chatbot" element={<Chatbot />} />
         <Route path="/resources" element={<Resources />} />
 
         {/* Add additional routes as needed */}
