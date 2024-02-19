@@ -8,8 +8,11 @@ import EmployeePage from './components/Pages/EmployeePage';
 import CustomerPage from './components/Pages/CustomerPage';
 import AboutPage from './components/Pages/About/AboutPage';
 import UserSignUp from './components/Pages/UserSignup';
+import Resources from './components/Pages/Resources/ResourcesPage'
+import Calendar from './components/Pages/Calendar/calendar';
+import EventsCalendar from './components/Pages/Calendar/eventsCalendar';
 import UserLogin from './components/Pages/Login'
-import Resources from './components/Pages/Resources/ResourcesPage';
+
 
 function App() {
   return (
@@ -25,6 +28,9 @@ function App() {
         <Route path="/login" element={<UserLogin/>} />
         <Route path="/signup" element={<UserSignUp />} />
         <Route path="/resources" element={<Resources />} />
+        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/events-calendar" element={<EventsCalendar />} />
+
 
         {/* Add additional routes as needed */}
       </Routes>
