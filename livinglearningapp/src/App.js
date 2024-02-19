@@ -11,6 +11,7 @@ import UserSignUp from './components/Pages/UserSignup';
 import Resources from './components/Pages/Resources/ResourcesPage'
 import Calendar from './components/Pages/Calendar/calendar';
 import EventsCalendar from './components/Pages/Calendar/eventsCalendar';
+import UserLogin from './components/Pages/Login'
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
         <Route path="/employee-home" element={<EmployeePage />} />
         <Route path="/customer-home" element={<CustomerPage />} />
         <Route path="/about-us" element={<AboutPage />} />
-
+        <Route path="/login" element={<UserLogin/>} />
         <Route path="/signup" element={<UserSignUp />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/calendar" element={<Calendar />} />

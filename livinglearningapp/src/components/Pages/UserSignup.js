@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Navbar, Nav, Container, Form, Button,Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const UserLogin = () => {
+const UserSignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
@@ -14,7 +14,9 @@ const UserLogin = () => {
   const [homeState, setHomeState] = useState('');
   const [homeCountry, setHomeCountry] = useState('');
   const [homePostalCode, setHomePostalCode] = useState('');
+  const [isGuardian, setIsGuardian] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
 
 
 
@@ -181,6 +183,18 @@ const UserLogin = () => {
             />
           </Form.Group>
 
+          <Form.Group className="mb-3" controlId="formBasicGuardian">
+            <Form.Check 
+              type="checkbox"
+              label="Are you a guardian?"
+              // Assuming you have a state variable to hold the checkbox value
+              checked={isGuardian} // This should be a boolean state variable in your component
+              onChange={(e) => setIsGuardian(e.target.checked)} // Adjust this to correctly update your state
+            />
+          </Form.Group>
+
+
+
           <Button variant="primary" type="submit">
             Login
           </Button>
@@ -190,4 +204,4 @@ const UserLogin = () => {
   );
 };
 
-export default UserLogin;
+export default UserSignUp;

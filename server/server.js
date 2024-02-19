@@ -33,7 +33,7 @@ mongoose.connect(mongoURI)
     homeState: { type: String, required: true },
     homeCountry: { type: String, required: true },
     homePostalCode: { type: String, required: true },
-    userType: { type: String, default: 'user' }, // 'user' or 'admin'
+    userType: { type: String, default: 'user' }, // 'user' or 'admin' or 'employee' or 'guardian'
     disabled: { type: Boolean, default: false }
   });
   
@@ -45,13 +45,21 @@ const User = mongoose.model('User', userSchema);
 
   
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Replace with your frontend origin
+  credentials: true,
+}));
 
 // Session configuration
 app.use(session({
-  secret: 'theKey', 
+  secret: 'theKey',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false, // Set to true if using HTTPS
+    maxAge: 1000 * 60 * 60 * 24, // Example: 24 hours
+  }
 }));
 
 // Passport initialization
@@ -122,11 +130,22 @@ app.post('/register', async (req, res) => {
     // Extract additional fields from the request
     const {
       email, password, username, phone, birthDate,
-      homeStreet, homeCity, homeState, homeCountry, homePostalCode
+      homeStreet, homeCity, homeState, homeCountry, homePostalCode, guardian
     } = req.body;
+    var role;
+
+    if(guardian)
+    {
+      role = "guardian";
+    }
+    else
+    {
+      role = "user";
+    }
+
 
     // Basic validation
-    if (!email || !password || !username || !phone || !birthDate || !homeStreet || !homeCity||!homeState||!homeCountry||!homePostalCode) {
+    if (!email || !password || !username || !phone || !birthDate || !homeStreet || !homeCity||!homeState||!homeCountry||!homePostalCode || !role) {
       return res.status(400).json({message:'All fields are required'});
     }
 
@@ -153,7 +172,8 @@ app.post('/register', async (req, res) => {
       homeCity,
       homeState,
       homeCountry,
-      homePostalCode
+      homePostalCode,
+      role
     });
 
     // Save the new user
@@ -166,30 +186,47 @@ app.post('/register', async (req, res) => {
   }
 });
 
-  app.post('/login', (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
+app.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) return next(err);
+    if (!user) return res.status(400).send(info.message);
+
+    req.logIn(user, (err) => {
       if (err) return next(err);
-      if (!user) return res.status(400).send(info.message);
-  
-      req.logIn(user, (err) => {
-        if (err) return next(err);
-        return res.send('Logged in successfully');
-      });
-    })(req, res, next);
-  });
-  app.post('/logout', (req, res) => {//logout endpoint
-    req.logout((err) => {
-      if (err) {
-        console.log('Error : Failed to logout.', err);
-        return res.status(500).send('Logout failed');
-      }
-      req.session.destroy(() => {
-        res.clearCookie('connect.sid'); 
-        res.status(200).send('Logged out successfully');
+      // Include the userType in the success response
+      return res.json({
+        message: 'Logged in successfully',
+        userType: user.userType // Adjusted to match your schema
       });
     });
-  });
+  })(req, res, next);
+});
 
+app.post('/logout', (req, res) => {
+  console.log('User attempting to log out with session ID:', req.session.id); // Log the session ID
+  if (req.isAuthenticated()) {
+    req.logout((err) => {
+      if (err) {
+        console.error('Logout error:', err);
+        return res.status(500).json({ message: 'Error during logout', error: err.toString() });
+      }
+      console.log('Logout successful, attempting to destroy session.');
+      // Destroy the session manually
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Session destruction error:', err);
+          return res.status(500).json({ message: 'Session destruction failed', error: err.toString() });
+        }
+        res.clearCookie('connect.sid', { path: '/' }); // Ensure path matches the cookie's path
+        console.log('Session destroyed successfully');
+        return res.status(200).json({ message: 'Logged out successfully' });
+      });
+    });
+} else {
+    console.log('No authenticated session to log out.');
+    res.status(200).json({ message: 'No session to log out' });
+  }
+});
 //EVENTS SCHEMA
 const eventSchema = new mongoose.Schema({
   title: {
@@ -235,6 +272,7 @@ app.get('/api/events/find', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch events' });
   }
 });
+
   
  
   
