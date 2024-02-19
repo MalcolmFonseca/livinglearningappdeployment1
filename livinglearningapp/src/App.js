@@ -8,10 +8,15 @@ import EmployeePage from './components/Pages/EmployeePage';
 import CustomerPage from './components/Pages/CustomerPage';
 import AboutPage from './components/Pages/About/AboutPage';
 import UserSignUp from './components/Pages/UserSignup';
+<<<<<<< HEAD
 import Resources from './components/Pages/Resources/ResourcesPage'
 import Calendar from './components/Pages/Calendar/calendar';
 import EventsCalendar from './components/Pages/Calendar/eventsCalendar';
 import UserLogin from './components/Pages/Login'
+=======
+import Resources from './components/Pages/Resources/ResourcesPage';
+import Chatbot from './components/Pages/Chatbot/Chatbot';
+>>>>>>> Chatbot
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./components/Pages/LandingPage";
@@ -36,6 +41,7 @@ function App() {
         <Route path="/about-us" element={<AboutPage />} />
         <Route path="/login" element={<UserLogin/>} />
         <Route path="/signup" element={<UserSignUp />} />
+        <Route path="/chatbot" element={<Chatbot />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/calendar/*" element={<Calendar />} />
         <Route path="/chatroom" element={<Chatroom />} />
