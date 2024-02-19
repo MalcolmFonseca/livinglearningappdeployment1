@@ -67,7 +67,6 @@ function CustomerPage() {
 
     return (
         <div className="App">
-<<<<<<< HEAD
             <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
                 <Container>
                     <Navbar.Brand href="#home">Living and Learning</Navbar.Brand>
@@ -84,20 +83,6 @@ function CustomerPage() {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-=======
-          <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
-            <Container>
-              <Navbar.Brand href="#home" >
-                
-                Living and Learning
-              </Navbar.Brand>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                  <Nav.Link as = {Link} to = "/about-us">ABOUT US</Nav.Link>
-                  <Nav.Link as = {Link} to = "/chatbot">CHATBOT</Nav.Link>
-                  <Nav.Link href="#chat">CHAT</Nav.Link>
->>>>>>> Chatbot
 
             <Container className="mt-3">
                 {renderContent()}
