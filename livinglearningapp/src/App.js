@@ -12,6 +12,8 @@ import Resources from './components/Pages/Resources/ResourcesPage'
 import Calendar from './components/Pages/Calendar/calendar';
 import EventsCalendar from './components/Pages/Calendar/eventsCalendar';
 import UserLogin from './components/Pages/Login'
+import Chatbot from './components/Pages/Chatbot/Chatbot';
+
 import Chatroom from "./components/Pages/Chatroom/Chatroom";
 
 function App() {
@@ -26,6 +28,7 @@ function App() {
         <Route path="/about-us" element={<AboutPage />} />
         <Route path="/login" element={<UserLogin/>} />
         <Route path="/signup" element={<UserSignUp />} />
+        <Route path="/chatbot" element={<Chatbot />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/calendar/*" element={<Calendar />} />
         <Route path="/chatroom" element={<Chatroom />} />
