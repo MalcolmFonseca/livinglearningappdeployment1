@@ -359,6 +359,7 @@ app.post('/api/chat', async (req, res) => {
     // Call GPT API to generate response
     const response = await genResponse(userInput);
     res.json({ response });
+    //console.log(response)
   } catch (error) {
     console.error('Error generating response:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -374,8 +375,9 @@ const genResponse = async (userInput) => {
         content: systemMessage,
       },{ role: "user", content: userInput }],
       temperature: 0,
-      max_tokens: 10,
+      max_tokens: 50,
     });
+    
     return response.choices.map(choice => choice.message.content).join('\n');
   } catch (err) {
     if (err.response && err.response.status === 429) {
