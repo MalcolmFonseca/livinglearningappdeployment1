@@ -333,6 +333,13 @@ app.get("/api/chatroom/messages", async (req, res) => {
   }
 });
 
+app.get("/api/userinfo", (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).send({error: 'User not authenticated'});
+  }
+  res.json({ username: req.user.username, userType: req.user.userType });
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

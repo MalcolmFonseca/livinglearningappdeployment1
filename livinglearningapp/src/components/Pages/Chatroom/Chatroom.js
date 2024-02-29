@@ -9,6 +9,8 @@ function Chatroom() {
   const [currentOwner, setCurrentOwner] = useState(["user1"]);
   const [msgList, setMsgList] = useState([]);
 
+
+
   useEffect(() => {
     Promise.all([fetch("http://localhost:3001/api/chatroom/messages")])
       .then(([res]) => Promise.all([res.json()]))
@@ -33,6 +35,19 @@ function Chatroom() {
 
         setMsgList(tempMsgList);
       });
+      fetch('http://localhost:3001/api/userinfo', { credentials: 'include' }) // Ensure credentials are included for sessions
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch user info');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setCurrentOwner(data.username); // Use the fetched username
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });  
   });
 
   const sendMessage = async (e) => {
