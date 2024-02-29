@@ -344,3 +344,51 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+
+//CHATBOT Section
+const OpenAI = require('openai');
+const openai = new OpenAI({ apiKey: "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" });
+const filePath = './Chatbot.txt';  // Adjust the path if needed
+const systemMessage = fs.readFileSync(filePath, 'utf8');
+
+app.post('/api/chat', async (req, res) => {
+  const { userInput } = req.body;
+
+  try {
+    // Call GPT API to generate response
+    const response = await genResponse(userInput);
+    res.json({ response });
+    //console.log(response)
+  } catch (error) {
+    console.error('Error generating response:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+const genResponse = async (userInput) => {
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{
+        role: "system",
+        content: systemMessage,
+      },{ role: "user", content: userInput }],
+      temperature: 0,
+      max_tokens: 50,
+    });
+    
+    return response.choices.map(choice => choice.message.content).join('\n');
+  } catch (err) {
+    if (err.response && err.response.status === 429) {
+  
+      await new Promise(resolve => setTimeout(resolve, 10000));
+      return genResponse(userInput); 
+    } else {
+      console.error('Error generating response:', err);
+      throw err;
+    }
+  }
+  return 'Generated response from GPT-3.5-turbo';
+};
+
